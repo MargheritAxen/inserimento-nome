@@ -2,6 +2,7 @@ package it.accenture.inserimentoNome.model;
 
 import it.accenture.inserimentoNome.model.IndirizzoUtenteModel;
 
+//Classe che serve da value object per la classe UtenteBean
 public class UtenteModel {
 
 	private String nome;

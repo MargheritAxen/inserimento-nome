@@ -5,6 +5,7 @@ import java.util.HashMap;
 import it.accenture.inserimentoNome.model.IndirizzoUtenteModel;
 
 //@Entity
+// Classe che definisce le proprietà dell'utente -> CLASSE BEAN
 public class UtenteBean {
 
 	private String nome;

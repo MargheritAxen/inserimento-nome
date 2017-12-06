@@ -2,6 +2,7 @@ package it.accenture.inserimentoNome.bean;
 
 // Embeddable Definisce una classe che deve essere considerata parte di un @Entity proprietaria
 //@Embeddable
+// Classe che contiene le proprietà dell'indirizzo di ogni utente -> classe BEAN
 public class IndirizzoUtenteBean {
 
 	private String via;

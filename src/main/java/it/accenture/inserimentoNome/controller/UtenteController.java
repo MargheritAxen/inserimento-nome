@@ -16,21 +16,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import it.accenture.inserimentoNome.bean.UsersListBean;
-import it.accenture.inserimentoNome.bean.UtenteBean;
 import it.accenture.inserimentoNome.model.IndirizzoUtenteModel;
 import it.accenture.inserimentoNome.model.UtenteModel;
 import it.accenture.inserimentoNome.service.UtenteService;
 
+//Il controller richiama i metodi implementati nel Service 
 @Controller
 @RequestMapping("/utente")
 public class UtenteController {
 	
+	//Richiamiamo il service mediante l'autowired -> annotation
 	@Autowired
 	private UtenteService service;
 
 	// Cerchi l'utente e stampi a video nome e cognome dell'utente
-	
 	@RequestMapping(value = "/utente/nome/{nome}/cognome/{cognome}", method = RequestMethod.GET)
 	public ResponseEntity<UtenteModel> getUtente(@PathVariable("nome") String nome,
 			@PathVariable("cognome") String cognome) {
@@ -45,8 +44,7 @@ public class UtenteController {
 		}
 	}
 
-	// Crea l'utente
-	
+	// Crea l'utente -> CREAZIONE = METODO POST -> metodo post che richiede sempre il Body -> JSON
 	@RequestMapping(value = "/utente", method = RequestMethod.POST)
 	public ResponseEntity<UtenteModel> createUser(@RequestBody UtenteModel u, UriComponentsBuilder ucBuilder) {
 		System.out.println("Creazione dell'utente: " + u.getNome() + " " + u.getCognome());
@@ -59,13 +57,13 @@ public class UtenteController {
 		u = service.creaUtente(u);
 		
 		HttpHeaders headers = new HttpHeaders();
+		// Nel path va inserito quello della GET -> che corrisponde alla ricerca
 		headers.setLocation(ucBuilder.path("/utente/nome/{nome}/cognome/{cognome}").buildAndExpand(u.getNome(),u.getCognome()).toUri());
 		return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	}
 	
 
 	// Restituisci tutti gli utenti creati
-	
 	@RequestMapping(value = "/utente", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<UtenteModel>> listAllUsers() {
 		List<UtenteModel> users  = service.cercaTuttiGliUtenti();
@@ -77,8 +75,7 @@ public class UtenteController {
 	}
 	
 	
-	// Crea l'indirizzo
-	
+	// Crea l'indirizzo -> CREAZIONE = METODO POST -> metodo post che richiede sempre il Body -> JSON
 	@RequestMapping(value = "/utente/nome/{nome}/cognome/{cognome}/indirizzo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<IndirizzoUtenteModel> createIndirizzo(@PathVariable("nome") String nome, @PathVariable("cognome") String cognome,
 			@RequestBody IndirizzoUtenteModel i, UriComponentsBuilder ucBuilder) {
@@ -89,15 +86,17 @@ public class UtenteController {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 
+		// quando crei l'indirizzo lo leghi all'utente
 		i = service.creaIndirizzo(nome,cognome,i);
 	
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/utente/nome/{nome}/cognome/{cognome}/indirizzo/{id}").buildAndExpand(nome, cognome, i.getId()).toUri());
+		// Nel path va inserito quello della GET -> che corrisponde alla ricerca
+		headers.setLocation(ucBuilder.path("/indirizzo/{id}").buildAndExpand(i.getId()).toUri());
 		return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	}
 	
 	
-//	// Funzione che lega indirizzo al nome
+//	// Funzione che lega indirizzo al nome -> NON USATA
 //	@RequestMapping(value = "/utente/nome/{nome}/cognome/{cognome}/indirizzo/{indirizzo}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 //	public ResponseEntity<IndirizzoUtenteModel> legaIndirizzoUtente(@PathVariable("nome") String nome, @PathVariable("cognome") String cognome, @PathVariable("indirizzo") String indirizzo,@RequestBody IndirizzoUtenteModel i,  UriComponentsBuilder ucBuilder) {
 //		UtenteModel u = new UtenteModel();
@@ -112,8 +111,7 @@ public class UtenteController {
 //	}
 
 	// Funzione di ricerca per id dell'indirizzo
-	
-	@RequestMapping(value = "/utente/nome/{nome}/cognome/{cognome}/indirizzo/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/indirizzo/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<IndirizzoUtenteModel> getIndirizzo(@PathVariable("id") String id) {
 		
 		IndirizzoUtenteModel indirizzo = service.cercaId(id);
@@ -121,7 +119,7 @@ public class UtenteController {
 			System.out.println("L'indirizzo cercato non corrisponde a nulla");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
-			System.out.println("L'indirizzo cercato corrisponde a: " + id + " .");
+			System.out.println("L'indirizzo cercato corrisponde a: " + id + ".");
 			return new ResponseEntity<>(indirizzo, HttpStatus.OK);
 		}
 	}

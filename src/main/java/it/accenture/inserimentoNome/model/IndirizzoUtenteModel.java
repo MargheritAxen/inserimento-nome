@@ -2,6 +2,7 @@ package it.accenture.inserimentoNome.model;
 
 
 //@Embeddable //Definisce che una classe deve essere considerata parte di un @Entity proprietaria
+//Classe che serve da value object per la classe IndirizzoUtenteBean
 public class IndirizzoUtenteModel {
 
 	private String via;

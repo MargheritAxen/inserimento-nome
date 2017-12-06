@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 
 // E' come un layer per l'inserimento dei dati
-
+//Creiamo la lista che contiene gli utenti della classe Bean
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class UsersListBean extends ArrayList<UtenteBean> {
