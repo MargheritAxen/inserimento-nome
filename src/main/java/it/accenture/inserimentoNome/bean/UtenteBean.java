@@ -11,6 +11,7 @@ public class UtenteBean {
 //	@Embedded 
 	private IndirizzoUtenteBean indirizzo;
 
+	//Metodo costruttore di base
 	public UtenteBean() {
 	}
 
