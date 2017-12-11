@@ -6,8 +6,6 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import it.accenture.inserimentoNome.model.IndirizzoUtenteModel;
-
 //Creiamo la lista che contiene gli indirizzi degli utenti
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)

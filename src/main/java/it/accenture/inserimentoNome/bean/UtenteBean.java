@@ -1,9 +1,5 @@
 package it.accenture.inserimentoNome.bean;
 
-import java.util.HashMap;
-
-import it.accenture.inserimentoNome.model.IndirizzoUtenteModel;
-
 //@Entity
 // Classe che definisce le proprietà dell'utente -> CLASSE BEAN
 public class UtenteBean {
@@ -60,7 +56,7 @@ public class UtenteBean {
 
 	@Override
 	public String toString() {
-		return "UtenteBean [nome=" + nome + ", cognome=" + cognome + ", id=" + id + ", indirizzo=" + indirizzo + "]";
+		return "UtenteBean [nome = " + nome + ", cognome = " + cognome + ", id = " + id + ", indirizzo = " + indirizzo + "]";
 	}
 
 }

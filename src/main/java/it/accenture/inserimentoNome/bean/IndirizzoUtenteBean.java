@@ -9,7 +9,7 @@ public class IndirizzoUtenteBean {
 	private int civico;
 	private String id;
 	
-	private UtenteBean utente;
+//	private UtenteBean utente;
 	
 	public IndirizzoUtenteBean() {
 		
@@ -48,7 +48,7 @@ public class IndirizzoUtenteBean {
 
 	@Override
 	public String toString() {
-		return "IndirizzoUtenteModel [via=" + via + ", civico=" + civico + ", id=" + id + "]";
+		return "IndirizzoUtenteModel [via = " + via + ", civico = " + civico + ", id = " + id + "]";
 	}
 
 

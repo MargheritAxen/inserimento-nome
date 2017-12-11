@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +30,10 @@ public class UtenteController {
 	//Richiamiamo il service mediante l'autowired -> annotation
 	@Autowired
 	private UtenteService service;
+	
+	//Sostituiamo il System.out.println tradizionale con il LOGGER -> permette di  mettere a punto un ottimo 
+	//sistema di logging per tenere sotto controllo il comportamento di una applicazione in fase di sviluppo
+	private static Logger LOGGER = Logger.getLogger("Operazione: ");
 
 	// Cerchi l'utente e stampi a video nome e cognome dell'utente
 	@RequestMapping(value = "/utente/nome/{nome}/cognome/{cognome}", method = RequestMethod.GET)
@@ -36,10 +42,12 @@ public class UtenteController {
 		UtenteModel utente = service.cercaNomeCognome(nome,cognome);
 		
 		if (utente == null) {
-			System.out.println("L'utente con nome " + nome + " " + cognome + " non è stato trovato.");
+			LOGGER.info("L'utente con nome " + nome + " " + cognome + " non è stato trovato.");
+			//System.out.println("L'utente con nome " + nome + " " + cognome + " non è stato trovato.");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
-			System.out.println("Buongiorno Egregio: " + utente.getNome() + " " + utente.getCognome());
+			LOGGER.info("Buongiorno Egregio/a: " + utente.getCognome() + " " + utente.getNome());
+			//System.out.println("Buongiorno Egregio: " + utente.getNome() + " " + utente.getCognome());
 			return new ResponseEntity<>(utente, HttpStatus.OK);
 		}
 	}
@@ -47,10 +55,12 @@ public class UtenteController {
 	// Crea l'utente -> CREAZIONE = METODO POST -> metodo post che richiede sempre il Body -> JSON
 	@RequestMapping(value = "/utente", method = RequestMethod.POST)
 	public ResponseEntity<UtenteModel> createUser(@RequestBody UtenteModel u, UriComponentsBuilder ucBuilder) {
-		System.out.println("Creazione dell'utente: " + u.getNome() + " " + u.getCognome());
+		LOGGER.info("Creazione del nuovo utente: " + u.getNome() + " " + u.getCognome());
+		//System.out.println("Creazione dell'utente: " + u.getNome() + " " + u.getCognome());
 
 		if (service.esisteUtente(u)) {
-			System.out.println("Un utente con nome: " + u.getNome() + " esiste già");
+			LOGGER.info("Un utente con nome: " + u.getNome() + " " + u.getCognome() + " esiste già quindi non è possibile crearlo.");
+			//System.out.println("Un utente con nome: " + u.getNome() + " esiste già");
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 
@@ -67,7 +77,8 @@ public class UtenteController {
 	@RequestMapping(value = "/utente", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<UtenteModel>> listAllUsers() {
 		List<UtenteModel> users  = service.cercaTuttiGliUtenti();
-		System.out.println("Gli utenti presenti sono i seguenti: " + users);
+		LOGGER.info("Gli utenti presenti sono i seguenti: " + users.toString());
+		//System.out.println("Gli utenti presenti sono i seguenti: " + users);
 		if (users.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -79,10 +90,12 @@ public class UtenteController {
 	@RequestMapping(value = "/utente/nome/{nome}/cognome/{cognome}/indirizzo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<IndirizzoUtenteModel> createIndirizzo(@PathVariable("nome") String nome, @PathVariable("cognome") String cognome,
 			@RequestBody IndirizzoUtenteModel i, UriComponentsBuilder ucBuilder) {
-		System.out.println("Creazione dell'indirizzo: via " + i.getVia() + " " + i.getCivico() + " del Signor/a: " + nome + " " + cognome);
+		LOGGER.info("Creazione dell'indirizzo: via " + i.getVia() + " " + i.getCivico() + " del Signor/a: " + nome + " " + cognome);
+		//System.out.println("Creazione dell'indirizzo: via " + i.getVia() + " " + i.getCivico() + " del Signor/a: " + nome + " " + cognome);
 		
 		if (service.esisteIndirizzo(i)) {
-			System.out.println("L'indirizzo: " + i.getVia() + i.getCivico() + " esiste già");
+			LOGGER.info("L'indirizzo inserito, via: " + i.getVia() + " " + i.getCivico() + " esiste già!");
+			//System.out.println("L'indirizzo: " + i.getVia() + i.getCivico() + " esiste già");
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 
@@ -116,10 +129,14 @@ public class UtenteController {
 		
 		IndirizzoUtenteModel indirizzo = service.cercaId(id);
 		if (indirizzo == null) {
-			System.out.println("L'indirizzo cercato non corrisponde a nulla");
+			LOGGER.info("L'indirizzo cercato non corrisponde a nulla");
+			//System.out.println("L'indirizzo cercato non corrisponde a nulla");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
-			System.out.println("L'indirizzo cercato corrisponde a: " + id + ".");
+			// Stampiamo correttamente anche l'indirizzo cercato
+			LOGGER.info("L'indirizzo cercato corrisponde al seguente id: " + id + ".");
+			LOGGER.info("Quindi l'indirizzo è in via: " + indirizzo.getVia() + " " + indirizzo.getCivico());
+			//System.out.println("L'indirizzo cercato corrisponde a: " + id + ".");
 			return new ResponseEntity<>(indirizzo, HttpStatus.OK);
 		}
 	}

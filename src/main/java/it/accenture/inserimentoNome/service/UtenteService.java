@@ -3,6 +3,7 @@ package it.accenture.inserimentoNome.service;
 
 import java.util.List;
 
+import it.accenture.inserimentoNome.bean.UtenteBean;
 import it.accenture.inserimentoNome.model.IndirizzoUtenteModel;
 import it.accenture.inserimentoNome.model.UtenteModel;
 

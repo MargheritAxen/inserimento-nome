@@ -44,8 +44,17 @@ public class IndirizzoUtenteModel {
 
 	@Override
 	public String toString() {
-		return "IndirizzoUtenteModel [via=" + via + ", civico=" + civico + ", id=" + id + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("via = ");
+		builder.append(via);
+		builder.append(", civico = ");
+		builder.append(civico);
+		builder.append(", con il seguente id = ");
+		builder.append(id);
+		builder.append("]");
+		return builder.toString();
 	}
 
+	
 
 }

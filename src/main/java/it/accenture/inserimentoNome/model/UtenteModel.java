@@ -56,7 +56,18 @@ public class UtenteModel {
 
 	@Override
 	public String toString() {
-		return "UtenteModel [nome=" + nome + ", cognome=" + cognome + ", id=" + id + ", indirizzo=" + indirizzo + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("L'utente è il seguente: nome = ");
+		builder.append(nome);
+		builder.append(", cognome = ");
+		builder.append(cognome);
+		builder.append(", id = ");
+		builder.append(id);
+		builder.append(", ed ha come indirizzo: ");
+		builder.append(indirizzo);
+		return builder.toString();
 	}
+
+	
 
 }
