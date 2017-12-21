@@ -3,6 +3,8 @@ package it.accenture.inserimentoNome.bean;
 //@Entity
 public class UtenteBean {
 
+	//COMMENTO PROVA!
+	
 	private String nome;
 	private String cognome;
 	private int id;
