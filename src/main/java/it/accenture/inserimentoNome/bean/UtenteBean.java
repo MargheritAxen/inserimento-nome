@@ -1,9 +1,5 @@
 package it.accenture.inserimentoNome.bean;
 
-import java.util.HashMap;
-
-import it.accenture.inserimentoNome.model.IndirizzoUtenteModel;
-
 //@Entity
 public class UtenteBean {
 
